@@ -31,13 +31,7 @@ digit = { '0'..'9' }
 ident = @{ !digit ~ (alpha | digit | "_" | "$")+ }
 
 set = { "set" }
-mutable = { "mut" }
 return = { "return" }
-global = { "global" }
-local = { "local" }
-shared = { "shared" }
-exclusive = { "exlusive" }
-unique = { "unique" }
 fn = { "fn" }
 impl = { "impl" }
 trait = { "trait" }
@@ -46,8 +40,10 @@ enum = { "enum" }
 match = { "match" }
 pub = { "pub" }
 
-locality = _{ local | global }
-exclusivity = _{ shared | exclusive | unique }
+	// --- MODES
+	mutable = { "mut" }
+	locality = { "local" | "global" }
+	exclusivity = { "shared" | "exclusive" | "unique" }
 
 
 // --- DECLARATION, ASSIGNMENT, AND STATEMENTS
@@ -60,7 +56,7 @@ exclusivity = _{ shared | exclusive | unique }
   b = 10;
   c = someFunc();
 */
-declaration_stmt = { ident ~ "=" ~ expr ~ ";" }
+declaration_stmt = { locality? ~ mutable? ~ ident ~ "=" ~ expr ~ ";" }
 
 /*
   Variables are mutated by using the 'set' keyword. In order for the set keyword

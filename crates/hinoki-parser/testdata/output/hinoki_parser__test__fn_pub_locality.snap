@@ -28,7 +28,7 @@ Pair {
                     inner: [],
                 },
                 Pair {
-                    rule: local,
+                    rule: locality,
                     span: Span {
                         str: "local",
                         start: 4,
@@ -123,7 +123,7 @@ Pair {
                     inner: [],
                 },
                 Pair {
-                    rule: global,
+                    rule: locality,
                     span: Span {
                         str: "global",
                         start: 44,
