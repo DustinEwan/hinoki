@@ -1,0 +1,7 @@
+local fn test() {
+	`hello world`
+}
+
+global fn test() {
+	`hello world`
+}

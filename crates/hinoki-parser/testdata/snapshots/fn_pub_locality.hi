@@ -1,0 +1,7 @@
+pub local fn test() {
+	`hello world`
+}
+
+pub global fn test() {
+	`hello world`
+}

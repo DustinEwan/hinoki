@@ -1,0 +1,213 @@
+---
+source: crates/hinoki-parser/src/lib.rs
+expression: snapshot_parsing(contents)
+---
+Pair {
+    rule: file,
+    span: Span {
+        str: "pub local fn test() {\n\t`hello world`\n}\n\npub global fn test() {\n\t`hello world`\n}\n",
+        start: 0,
+        end: 80,
+    },
+    inner: [
+        Pair {
+            rule: function_definition,
+            span: Span {
+                str: "pub local fn test() {\n\t`hello world`\n}",
+                start: 0,
+                end: 38,
+            },
+            inner: [
+                Pair {
+                    rule: pub,
+                    span: Span {
+                        str: "pub",
+                        start: 0,
+                        end: 3,
+                    },
+                    inner: [],
+                },
+                Pair {
+                    rule: local,
+                    span: Span {
+                        str: "local",
+                        start: 4,
+                        end: 9,
+                    },
+                    inner: [],
+                },
+                Pair {
+                    rule: fn,
+                    span: Span {
+                        str: "fn",
+                        start: 10,
+                        end: 12,
+                    },
+                    inner: [],
+                },
+                Pair {
+                    rule: ident,
+                    span: Span {
+                        str: "test",
+                        start: 13,
+                        end: 17,
+                    },
+                    inner: [],
+                },
+                Pair {
+                    rule: block_expr,
+                    span: Span {
+                        str: "{\n\t`hello world`\n}",
+                        start: 20,
+                        end: 38,
+                    },
+                    inner: [
+                        Pair {
+                            rule: expr,
+                            span: Span {
+                                str: "`hello world`\n",
+                                start: 23,
+                                end: 37,
+                            },
+                            inner: [
+                                Pair {
+                                    rule: term,
+                                    span: Span {
+                                        str: "`hello world`",
+                                        start: 23,
+                                        end: 36,
+                                    },
+                                    inner: [
+                                        Pair {
+                                            rule: string,
+                                            span: Span {
+                                                str: "`hello world`",
+                                                start: 23,
+                                                end: 36,
+                                            },
+                                            inner: [
+                                                Pair {
+                                                    rule: inner,
+                                                    span: Span {
+                                                        str: "hello world",
+                                                        start: 24,
+                                                        end: 35,
+                                                    },
+                                                    inner: [],
+                                                },
+                                            ],
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                    ],
+                },
+            ],
+        },
+        Pair {
+            rule: function_definition,
+            span: Span {
+                str: "pub global fn test() {\n\t`hello world`\n}",
+                start: 40,
+                end: 79,
+            },
+            inner: [
+                Pair {
+                    rule: pub,
+                    span: Span {
+                        str: "pub",
+                        start: 40,
+                        end: 43,
+                    },
+                    inner: [],
+                },
+                Pair {
+                    rule: global,
+                    span: Span {
+                        str: "global",
+                        start: 44,
+                        end: 50,
+                    },
+                    inner: [],
+                },
+                Pair {
+                    rule: fn,
+                    span: Span {
+                        str: "fn",
+                        start: 51,
+                        end: 53,
+                    },
+                    inner: [],
+                },
+                Pair {
+                    rule: ident,
+                    span: Span {
+                        str: "test",
+                        start: 54,
+                        end: 58,
+                    },
+                    inner: [],
+                },
+                Pair {
+                    rule: block_expr,
+                    span: Span {
+                        str: "{\n\t`hello world`\n}",
+                        start: 61,
+                        end: 79,
+                    },
+                    inner: [
+                        Pair {
+                            rule: expr,
+                            span: Span {
+                                str: "`hello world`\n",
+                                start: 64,
+                                end: 78,
+                            },
+                            inner: [
+                                Pair {
+                                    rule: term,
+                                    span: Span {
+                                        str: "`hello world`",
+                                        start: 64,
+                                        end: 77,
+                                    },
+                                    inner: [
+                                        Pair {
+                                            rule: string,
+                                            span: Span {
+                                                str: "`hello world`",
+                                                start: 64,
+                                                end: 77,
+                                            },
+                                            inner: [
+                                                Pair {
+                                                    rule: inner,
+                                                    span: Span {
+                                                        str: "hello world",
+                                                        start: 65,
+                                                        end: 76,
+                                                    },
+                                                    inner: [],
+                                                },
+                                            ],
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                    ],
+                },
+            ],
+        },
+        Pair {
+            rule: EOI,
+            span: Span {
+                str: "",
+                start: 80,
+                end: 80,
+            },
+            inner: [],
+        },
+    ],
+}

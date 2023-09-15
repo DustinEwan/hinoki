@@ -1,0 +1,158 @@
+file = { SOI ~ ( function_definition )* ~ EOI }
+
+// --- FILE TOP LEVEL DECLARATIONS
+
+	// pragmas ...  #[whatever]
+
+	// --- FUNCTION DEFINITIONS
+	function_definition = { pub? ~ locality? ~ fn ~ ident ~ type_generics_definition? ~ "(" ~ function_parameters_list? ~ ")" ~ (":" ~ type)? ~ block_expr }
+	function_parameters_list = _{ function_parameter ~ ("," ~ function_parameter)* ~ ","? }
+	function_parameter = { exclusivity? ~ locality? ~ mutable? ~ ident ~ ":" ~ type }
+	type = { ident } // Update this later, there's lots to consider
+	type_generics_definition = { "<" ~ generics_list ~ ">" }
+	generics_list = _{ ident ~ ("," ~ ident)* ~ ","? }
+
+// --- ALL EXPRESSIONS
+prefix = _{ increment | decrement | not | subtract }
+postfix = _{ call_operation | index_access_operation } 
+
+unaried_term = _{ prefix? ~ postfixed_term }
+postfixed_term = _{ term ~ postfix* }
+term = { ( "(" ~ expr ~ ")" ) | primary_expr } // Include all other expression types here!
+
+block_expr = { "{" ~ ( statement | expr )* ~ "}" }
+primary_expr = _{ ident | literal }
+
+expr = !{ unaried_term ~ ( binary_operation ~ unaried_term )* }
+
+// --- IDENTIFIERS AND KEYWORDS
+alpha = { 'a'..'z' | 'A'..'Z' }
+digit = { '0'..'9' }
+ident = @{ !digit ~ (alpha | digit | "_" | "$")+ }
+
+set = { "set" }
+mutable = { "mut" }
+return = { "return" }
+global = { "global" }
+local = { "local" }
+shared = { "shared" }
+exclusive = { "exlusive" }
+unique = { "unique" }
+fn = { "fn" }
+impl = { "impl" }
+trait = { "trait" }
+struct = { "struct" }
+enum = { "enum" }
+match = { "match" }
+pub = { "pub" }
+
+locality = _{ local | global }
+exclusivity = _{ shared | exclusive | unique }
+
+
+// --- DECLARATION, ASSIGNMENT, AND STATEMENTS
+
+/*
+  Variables are declared simply by writing an identifier and
+  assigning a value to it... 
+
+  a = 5;
+  b = 10;
+  c = someFunc();
+*/
+declaration_stmt = { ident ~ "=" ~ expr ~ ";" }
+
+/*
+  Variables are mutated by using the 'set' keyword. In order for the set keyword
+  to not throw an error, the current block must have at _least_ exclusive access
+  to the variable.
+*/
+mutate_stmt = { set ~ ident ~ "=" ~ expr ~ ";" }
+
+return_stmt = { return ~ expr ~ ";" }
+expression_stmt = { expr ~ ";" }
+
+statement = _{ declaration_stmt | mutate_stmt | return_stmt | expression_stmt }
+
+// --- OPERATORS 
+
+add			= { "+" }
+subtract		= { "-" }
+multiply		= { "*" }
+divide			= { "/" }
+power			= { "**" }
+modulus			= { "%" }
+increment		= { "++" }
+decrement		= { "--" }
+
+shift_left		= { "<<" }
+shift_right		= { ">>" }
+bitwise_and 		= { "&" }
+bitwise_or		= { "|" }
+xor			= { "^" }
+not			= { "!" }
+
+less_than		= { "<" }
+greater_than		= { ">" }
+equal			= { "==" }
+less_than_or_equal	= { "<=" }
+greater_than_or_equal	= { ">=" }
+not_equal		= { "!=" }
+
+// The following operations are in order of highest to lowest precedence
+
+exponent_operation	= _{ power }
+product_operation 	= _{ multiply | divide }
+mod_operation 		= _{ modulus }
+sum_operation 		= _{ add | subtract }
+shift_operation 	= _{ shift_left | shift_right }
+logical_operation	= _{ less_than | greater_than | equal | less_than_or_equal | greater_than_or_equal | not_equal }
+negation_operation	= _{ not }
+and_operation		= _{ bitwise_and }
+or_operation		= _{ bitwise_or }
+xor_operation		= _{ xor }
+
+binary_operation 	= _{ exponent_operation | product_operation | mod_operation | sum_operation | shift_operation | logical_operation | negation_operation | and_operation | or_operation | xor_operation }
+
+call_parameter_list = _{ unaried_term ~ ("," ~ unaried_term)* ~ ","? }
+
+call_operation = { "(" ~ call_parameter_list? ~ ")" } 
+index_access_operation = { "[" ~ digit+ ~ "]" }
+
+// --- PRIMITIVES
+
+literal = _{ number | boolean | string }
+
+binary_digit = { "0" | "1" }
+octal_digit = { '0'..'7' }
+hex_digit = { digit | 'a'..'f' | 'A'..'F' }
+
+int = @{ digit+ }
+hex_int = @{ "0x" ~ hex_digit+ }
+octal_int = @{ "0o" ~ octal_digit+ }
+binary_int = @{ "0b" ~ binary_digit+ }
+scientific_int = @{ digit+ ~ scientific_suffix }
+int_term = _{ int | hex_int | octal_int | binary_int | scientific_int }
+
+float = @{ digit+ ~ "." ~ digit+ }
+scientific_float = @{ float ~ scientific_suffix }
+float_term = _{ float | scientific_float }
+
+scientific_suffix = _{ "e" ~ digit+ }
+
+number = _{ int_term | float_term }
+boolean = { "true" | "false" }
+
+string = ${ 
+ "`" ~ inner? ~ "`"
+}
+
+inner = @{ char+ | ( "{" ~ expr ~ "}" )? }
+char = {
+  !("`" | "\\" | "{" | "}" ) ~ ANY
+  | "\\" ~ ( "`" | "\\" | "/" | "b" | "f" | "n" | "r" | "t" | "{" | "}" )
+  | "\\" ~ ( "u" ~ ASCII_HEX_DIGIT{4} )
+}
+
+WHITESPACE = _{ " " | "\t" | "\r" | "\n" }
+COMMENT = _{ "/*" ~ (!"*/" ~ ANY)* ~ "*/" }
