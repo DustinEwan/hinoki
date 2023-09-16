@@ -1,0 +1,32 @@
+
+fn test() {
+	`hello world`
+}
+
+fn test(x: string) {
+	x	
+}
+
+fn test(a: int, b: int) {
+	a + b
+}
+
+pub fn test() {
+	`hello world`
+}
+
+local fn test() {
+	`hello world`
+}
+
+global fn test() {
+	`hello world`
+}
+
+pub local fn test() {
+	`hello world`
+}
+
+pub global fn test() {
+	`hello world`
+}

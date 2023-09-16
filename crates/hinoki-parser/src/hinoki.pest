@@ -59,23 +59,8 @@ pub = { "pub" }
 
 // --- DECLARATION, ASSIGNMENT, AND STATEMENTS
 
-/*
-  Variables are declared simply by writing an identifier and
-  assigning a value to it... 
-
-  a = 5;
-  b = 10;
-  c = someFunc();
-*/
 declaration_stmt = { locality? ~ mutable? ~ ident ~ "=" ~ expr ~ ";" }
-
-/*
-  Variables are mutated by using the 'set' keyword. In order for the set keyword
-  to not throw an error, the current block must have at _least_ exclusive access
-  to the variable.
-*/
 mutate_stmt = { set ~ ident ~ "=" ~ expr ~ ";" }
-
 return_stmt = { return ~ expr ~ ";" }
 expression_stmt = { expr ~ ";" }
 

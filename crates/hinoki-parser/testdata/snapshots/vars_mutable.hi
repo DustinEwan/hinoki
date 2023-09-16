@@ -1,6 +1,0 @@
-fn add() {
-	mut a = 5;
-	set a = 10;
-
-	a
-}

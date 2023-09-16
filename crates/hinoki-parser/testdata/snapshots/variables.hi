@@ -1,0 +1,28 @@
+
+fn add() {
+	a = 5;
+	b = 10;
+
+	a + b
+}
+
+fn add() {
+	mut a = 5;
+	set a = 10;
+
+	a
+}
+
+fn add() {
+	local a = 5;
+	local b = 10;
+
+	a + b
+}
+
+fn add() {
+	local mut a = 5;
+	set a = 10;
+
+	a
+}
