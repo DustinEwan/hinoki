@@ -1,0 +1,21 @@
+
+enum Basic {
+	Pass,
+	Fail
+}
+
+enum Option<T> {
+	Some(T),
+	None,
+}
+
+enum Result<T, E> {
+	Ok(T),
+	Err(E)
+}
+
+enum MultiDimVec {
+	Dim(float),
+	Vec2D(float, float),
+	Vec3D(float, float, float),
+}

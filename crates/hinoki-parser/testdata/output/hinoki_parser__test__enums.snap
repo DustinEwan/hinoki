@@ -1,0 +1,524 @@
+---
+source: crates/hinoki-parser/src/lib.rs
+expression: snapshot_parsing(contents)
+---
+Pair {
+    rule: file,
+    span: Span {
+        str: "\nenum Basic {\n\tPass,\n\tFail\n}\n\nenum Option<T> {\n\tSome(T),\n\tNone,\n}\n\nenum Result<T, E> {\n\tOk(T),\n\tErr(E)\n}\n\nenum MultiDimVec {\n\tDim(float),\n\tVec2D(float, float),\n\tVec3D(float, float, float),\n}\n",
+        start: 0,
+        end: 191,
+    },
+    inner: [
+        Pair {
+            rule: enum_definition,
+            span: Span {
+                str: "enum Basic {\n\tPass,\n\tFail\n}",
+                start: 1,
+                end: 28,
+            },
+            inner: [
+                Pair {
+                    rule: enum,
+                    span: Span {
+                        str: "enum",
+                        start: 1,
+                        end: 5,
+                    },
+                    inner: [],
+                },
+                Pair {
+                    rule: ident,
+                    span: Span {
+                        str: "Basic",
+                        start: 6,
+                        end: 11,
+                    },
+                    inner: [],
+                },
+                Pair {
+                    rule: enum_variant,
+                    span: Span {
+                        str: "Pass",
+                        start: 15,
+                        end: 19,
+                    },
+                    inner: [
+                        Pair {
+                            rule: ident,
+                            span: Span {
+                                str: "Pass",
+                                start: 15,
+                                end: 19,
+                            },
+                            inner: [],
+                        },
+                    ],
+                },
+                Pair {
+                    rule: enum_variant,
+                    span: Span {
+                        str: "Fail\n",
+                        start: 22,
+                        end: 27,
+                    },
+                    inner: [
+                        Pair {
+                            rule: ident,
+                            span: Span {
+                                str: "Fail",
+                                start: 22,
+                                end: 26,
+                            },
+                            inner: [],
+                        },
+                    ],
+                },
+            ],
+        },
+        Pair {
+            rule: enum_definition,
+            span: Span {
+                str: "enum Option<T> {\n\tSome(T),\n\tNone,\n}",
+                start: 30,
+                end: 65,
+            },
+            inner: [
+                Pair {
+                    rule: enum,
+                    span: Span {
+                        str: "enum",
+                        start: 30,
+                        end: 34,
+                    },
+                    inner: [],
+                },
+                Pair {
+                    rule: ident,
+                    span: Span {
+                        str: "Option",
+                        start: 35,
+                        end: 41,
+                    },
+                    inner: [],
+                },
+                Pair {
+                    rule: type_generics_definition,
+                    span: Span {
+                        str: "<T>",
+                        start: 41,
+                        end: 44,
+                    },
+                    inner: [
+                        Pair {
+                            rule: ident,
+                            span: Span {
+                                str: "T",
+                                start: 42,
+                                end: 43,
+                            },
+                            inner: [],
+                        },
+                    ],
+                },
+                Pair {
+                    rule: enum_variant,
+                    span: Span {
+                        str: "Some(T)",
+                        start: 48,
+                        end: 55,
+                    },
+                    inner: [
+                        Pair {
+                            rule: ident,
+                            span: Span {
+                                str: "Some",
+                                start: 48,
+                                end: 52,
+                            },
+                            inner: [],
+                        },
+                        Pair {
+                            rule: type,
+                            span: Span {
+                                str: "T",
+                                start: 53,
+                                end: 54,
+                            },
+                            inner: [
+                                Pair {
+                                    rule: ident,
+                                    span: Span {
+                                        str: "T",
+                                        start: 53,
+                                        end: 54,
+                                    },
+                                    inner: [],
+                                },
+                            ],
+                        },
+                    ],
+                },
+                Pair {
+                    rule: enum_variant,
+                    span: Span {
+                        str: "None",
+                        start: 58,
+                        end: 62,
+                    },
+                    inner: [
+                        Pair {
+                            rule: ident,
+                            span: Span {
+                                str: "None",
+                                start: 58,
+                                end: 62,
+                            },
+                            inner: [],
+                        },
+                    ],
+                },
+            ],
+        },
+        Pair {
+            rule: enum_definition,
+            span: Span {
+                str: "enum Result<T, E> {\n\tOk(T),\n\tErr(E)\n}",
+                start: 67,
+                end: 104,
+            },
+            inner: [
+                Pair {
+                    rule: enum,
+                    span: Span {
+                        str: "enum",
+                        start: 67,
+                        end: 71,
+                    },
+                    inner: [],
+                },
+                Pair {
+                    rule: ident,
+                    span: Span {
+                        str: "Result",
+                        start: 72,
+                        end: 78,
+                    },
+                    inner: [],
+                },
+                Pair {
+                    rule: type_generics_definition,
+                    span: Span {
+                        str: "<T, E>",
+                        start: 78,
+                        end: 84,
+                    },
+                    inner: [
+                        Pair {
+                            rule: ident,
+                            span: Span {
+                                str: "T",
+                                start: 79,
+                                end: 80,
+                            },
+                            inner: [],
+                        },
+                        Pair {
+                            rule: ident,
+                            span: Span {
+                                str: "E",
+                                start: 82,
+                                end: 83,
+                            },
+                            inner: [],
+                        },
+                    ],
+                },
+                Pair {
+                    rule: enum_variant,
+                    span: Span {
+                        str: "Ok(T)",
+                        start: 88,
+                        end: 93,
+                    },
+                    inner: [
+                        Pair {
+                            rule: ident,
+                            span: Span {
+                                str: "Ok",
+                                start: 88,
+                                end: 90,
+                            },
+                            inner: [],
+                        },
+                        Pair {
+                            rule: type,
+                            span: Span {
+                                str: "T",
+                                start: 91,
+                                end: 92,
+                            },
+                            inner: [
+                                Pair {
+                                    rule: ident,
+                                    span: Span {
+                                        str: "T",
+                                        start: 91,
+                                        end: 92,
+                                    },
+                                    inner: [],
+                                },
+                            ],
+                        },
+                    ],
+                },
+                Pair {
+                    rule: enum_variant,
+                    span: Span {
+                        str: "Err(E)",
+                        start: 96,
+                        end: 102,
+                    },
+                    inner: [
+                        Pair {
+                            rule: ident,
+                            span: Span {
+                                str: "Err",
+                                start: 96,
+                                end: 99,
+                            },
+                            inner: [],
+                        },
+                        Pair {
+                            rule: type,
+                            span: Span {
+                                str: "E",
+                                start: 100,
+                                end: 101,
+                            },
+                            inner: [
+                                Pair {
+                                    rule: ident,
+                                    span: Span {
+                                        str: "E",
+                                        start: 100,
+                                        end: 101,
+                                    },
+                                    inner: [],
+                                },
+                            ],
+                        },
+                    ],
+                },
+            ],
+        },
+        Pair {
+            rule: enum_definition,
+            span: Span {
+                str: "enum MultiDimVec {\n\tDim(float),\n\tVec2D(float, float),\n\tVec3D(float, float, float),\n}",
+                start: 106,
+                end: 190,
+            },
+            inner: [
+                Pair {
+                    rule: enum,
+                    span: Span {
+                        str: "enum",
+                        start: 106,
+                        end: 110,
+                    },
+                    inner: [],
+                },
+                Pair {
+                    rule: ident,
+                    span: Span {
+                        str: "MultiDimVec",
+                        start: 111,
+                        end: 122,
+                    },
+                    inner: [],
+                },
+                Pair {
+                    rule: enum_variant,
+                    span: Span {
+                        str: "Dim(float)",
+                        start: 126,
+                        end: 136,
+                    },
+                    inner: [
+                        Pair {
+                            rule: ident,
+                            span: Span {
+                                str: "Dim",
+                                start: 126,
+                                end: 129,
+                            },
+                            inner: [],
+                        },
+                        Pair {
+                            rule: type,
+                            span: Span {
+                                str: "float",
+                                start: 130,
+                                end: 135,
+                            },
+                            inner: [
+                                Pair {
+                                    rule: ident,
+                                    span: Span {
+                                        str: "float",
+                                        start: 130,
+                                        end: 135,
+                                    },
+                                    inner: [],
+                                },
+                            ],
+                        },
+                    ],
+                },
+                Pair {
+                    rule: enum_variant,
+                    span: Span {
+                        str: "Vec2D(float, float)",
+                        start: 139,
+                        end: 158,
+                    },
+                    inner: [
+                        Pair {
+                            rule: ident,
+                            span: Span {
+                                str: "Vec2D",
+                                start: 139,
+                                end: 144,
+                            },
+                            inner: [],
+                        },
+                        Pair {
+                            rule: type,
+                            span: Span {
+                                str: "float",
+                                start: 145,
+                                end: 150,
+                            },
+                            inner: [
+                                Pair {
+                                    rule: ident,
+                                    span: Span {
+                                        str: "float",
+                                        start: 145,
+                                        end: 150,
+                                    },
+                                    inner: [],
+                                },
+                            ],
+                        },
+                        Pair {
+                            rule: type,
+                            span: Span {
+                                str: "float",
+                                start: 152,
+                                end: 157,
+                            },
+                            inner: [
+                                Pair {
+                                    rule: ident,
+                                    span: Span {
+                                        str: "float",
+                                        start: 152,
+                                        end: 157,
+                                    },
+                                    inner: [],
+                                },
+                            ],
+                        },
+                    ],
+                },
+                Pair {
+                    rule: enum_variant,
+                    span: Span {
+                        str: "Vec3D(float, float, float)",
+                        start: 161,
+                        end: 187,
+                    },
+                    inner: [
+                        Pair {
+                            rule: ident,
+                            span: Span {
+                                str: "Vec3D",
+                                start: 161,
+                                end: 166,
+                            },
+                            inner: [],
+                        },
+                        Pair {
+                            rule: type,
+                            span: Span {
+                                str: "float",
+                                start: 167,
+                                end: 172,
+                            },
+                            inner: [
+                                Pair {
+                                    rule: ident,
+                                    span: Span {
+                                        str: "float",
+                                        start: 167,
+                                        end: 172,
+                                    },
+                                    inner: [],
+                                },
+                            ],
+                        },
+                        Pair {
+                            rule: type,
+                            span: Span {
+                                str: "float",
+                                start: 174,
+                                end: 179,
+                            },
+                            inner: [
+                                Pair {
+                                    rule: ident,
+                                    span: Span {
+                                        str: "float",
+                                        start: 174,
+                                        end: 179,
+                                    },
+                                    inner: [],
+                                },
+                            ],
+                        },
+                        Pair {
+                            rule: type,
+                            span: Span {
+                                str: "float",
+                                start: 181,
+                                end: 186,
+                            },
+                            inner: [
+                                Pair {
+                                    rule: ident,
+                                    span: Span {
+                                        str: "float",
+                                        start: 181,
+                                        end: 186,
+                                    },
+                                    inner: [],
+                                },
+                            ],
+                        },
+                    ],
+                },
+            ],
+        },
+        Pair {
+            rule: EOI,
+            span: Span {
+                str: "",
+                start: 191,
+                end: 191,
+            },
+            inner: [],
+        },
+    ],
+}

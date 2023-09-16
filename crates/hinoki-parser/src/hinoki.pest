@@ -1,4 +1,4 @@
-file = { SOI ~ ( function_definition | struct_definition )* ~ EOI }
+file = { SOI ~ ( function_definition | struct_definition | enum_definition )* ~ EOI }
 
 // --- FILE TOP LEVEL DECLARATIONS
 
@@ -13,10 +13,15 @@ file = { SOI ~ ( function_definition | struct_definition )* ~ EOI }
 	generics_list = _{ ident ~ ("," ~ ident)* ~ ","? }
 
 	// --- STRUCT DEFINITIONS
-	struct_definition = { pub? ~ struct ~ ident ~ struct_body }
-	struct_body = _{ type_generics_definition? ~ "{" ~ struct_member_list ~ "}" }
+	struct_definition = { pub? ~ struct ~ ident ~ type_generics_definition? ~ "{" ~ struct_member_list ~ "}" }
 	struct_member_list = _{ struct_member ~ ("," ~ struct_member)* ~ ","? }
 	struct_member = { ident ~ ":" ~ type }
+
+	// --- ENUM DEFINITIONS
+	enum_definition = { pub? ~ enum ~ ident ~ type_generics_definition? ~ "{" ~ enum_variant_list ~ "}" }
+	enum_variant_list = _{ enum_variant ~ ("," ~ enum_variant)* ~ ","? }
+	enum_variant = { ident ~ enum_tuple_list? }
+	enum_tuple_list = _{ "(" ~ type ~ ("," ~ type)* ~ ","? ~ ")" }
 
 // --- ALL EXPRESSIONS
 prefix = _{ increment | decrement | not | subtract }
