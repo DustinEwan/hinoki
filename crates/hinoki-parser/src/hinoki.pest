@@ -1,4 +1,4 @@
-file = { SOI ~ ( function_definition )* ~ EOI }
+file = { SOI ~ ( function_definition | struct_definition )* ~ EOI }
 
 // --- FILE TOP LEVEL DECLARATIONS
 
@@ -11,6 +11,12 @@ file = { SOI ~ ( function_definition )* ~ EOI }
 	type = { ident } // Update this later, there's lots to consider
 	type_generics_definition = { "<" ~ generics_list ~ ">" }
 	generics_list = _{ ident ~ ("," ~ ident)* ~ ","? }
+
+	// --- STRUCT DEFINITIONS
+	struct_definition = { pub? ~ struct ~ ident ~ struct_body }
+	struct_body = _{ type_generics_definition? ~ "{" ~ struct_member_list ~ "}" }
+	struct_member_list = _{ struct_member ~ ("," ~ struct_member)* ~ ","? }
+	struct_member = { ident ~ ":" ~ type }
 
 // --- ALL EXPRESSIONS
 prefix = _{ increment | decrement | not | subtract }

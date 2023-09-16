@@ -1,0 +1,410 @@
+---
+source: crates/hinoki-parser/src/lib.rs
+expression: snapshot_parsing(contents)
+---
+Pair {
+    rule: file,
+    span: Span {
+        str: "struct Basic {\n\tvalue: string\n}\n\nstruct MultiMember {\n\tkey: string,\n\tvalue: string,\n}\n\nstruct Generic<T> {\n\tvalue: T\n}\n\nstruct MultiGeneric<T, U> {\n\tkey: T,\n\tvalue: U\n}\n",
+        start: 0,
+        end: 169,
+    },
+    inner: [
+        Pair {
+            rule: struct_definition,
+            span: Span {
+                str: "struct Basic {\n\tvalue: string\n}",
+                start: 0,
+                end: 31,
+            },
+            inner: [
+                Pair {
+                    rule: struct,
+                    span: Span {
+                        str: "struct",
+                        start: 0,
+                        end: 6,
+                    },
+                    inner: [],
+                },
+                Pair {
+                    rule: ident,
+                    span: Span {
+                        str: "Basic",
+                        start: 7,
+                        end: 12,
+                    },
+                    inner: [],
+                },
+                Pair {
+                    rule: struct_member,
+                    span: Span {
+                        str: "value: string",
+                        start: 16,
+                        end: 29,
+                    },
+                    inner: [
+                        Pair {
+                            rule: ident,
+                            span: Span {
+                                str: "value",
+                                start: 16,
+                                end: 21,
+                            },
+                            inner: [],
+                        },
+                        Pair {
+                            rule: type,
+                            span: Span {
+                                str: "string",
+                                start: 23,
+                                end: 29,
+                            },
+                            inner: [
+                                Pair {
+                                    rule: ident,
+                                    span: Span {
+                                        str: "string",
+                                        start: 23,
+                                        end: 29,
+                                    },
+                                    inner: [],
+                                },
+                            ],
+                        },
+                    ],
+                },
+            ],
+        },
+        Pair {
+            rule: struct_definition,
+            span: Span {
+                str: "struct MultiMember {\n\tkey: string,\n\tvalue: string,\n}",
+                start: 33,
+                end: 85,
+            },
+            inner: [
+                Pair {
+                    rule: struct,
+                    span: Span {
+                        str: "struct",
+                        start: 33,
+                        end: 39,
+                    },
+                    inner: [],
+                },
+                Pair {
+                    rule: ident,
+                    span: Span {
+                        str: "MultiMember",
+                        start: 40,
+                        end: 51,
+                    },
+                    inner: [],
+                },
+                Pair {
+                    rule: struct_member,
+                    span: Span {
+                        str: "key: string",
+                        start: 55,
+                        end: 66,
+                    },
+                    inner: [
+                        Pair {
+                            rule: ident,
+                            span: Span {
+                                str: "key",
+                                start: 55,
+                                end: 58,
+                            },
+                            inner: [],
+                        },
+                        Pair {
+                            rule: type,
+                            span: Span {
+                                str: "string",
+                                start: 60,
+                                end: 66,
+                            },
+                            inner: [
+                                Pair {
+                                    rule: ident,
+                                    span: Span {
+                                        str: "string",
+                                        start: 60,
+                                        end: 66,
+                                    },
+                                    inner: [],
+                                },
+                            ],
+                        },
+                    ],
+                },
+                Pair {
+                    rule: struct_member,
+                    span: Span {
+                        str: "value: string",
+                        start: 69,
+                        end: 82,
+                    },
+                    inner: [
+                        Pair {
+                            rule: ident,
+                            span: Span {
+                                str: "value",
+                                start: 69,
+                                end: 74,
+                            },
+                            inner: [],
+                        },
+                        Pair {
+                            rule: type,
+                            span: Span {
+                                str: "string",
+                                start: 76,
+                                end: 82,
+                            },
+                            inner: [
+                                Pair {
+                                    rule: ident,
+                                    span: Span {
+                                        str: "string",
+                                        start: 76,
+                                        end: 82,
+                                    },
+                                    inner: [],
+                                },
+                            ],
+                        },
+                    ],
+                },
+            ],
+        },
+        Pair {
+            rule: struct_definition,
+            span: Span {
+                str: "struct Generic<T> {\n\tvalue: T\n}",
+                start: 87,
+                end: 118,
+            },
+            inner: [
+                Pair {
+                    rule: struct,
+                    span: Span {
+                        str: "struct",
+                        start: 87,
+                        end: 93,
+                    },
+                    inner: [],
+                },
+                Pair {
+                    rule: ident,
+                    span: Span {
+                        str: "Generic",
+                        start: 94,
+                        end: 101,
+                    },
+                    inner: [],
+                },
+                Pair {
+                    rule: type_generics_definition,
+                    span: Span {
+                        str: "<T>",
+                        start: 101,
+                        end: 104,
+                    },
+                    inner: [
+                        Pair {
+                            rule: ident,
+                            span: Span {
+                                str: "T",
+                                start: 102,
+                                end: 103,
+                            },
+                            inner: [],
+                        },
+                    ],
+                },
+                Pair {
+                    rule: struct_member,
+                    span: Span {
+                        str: "value: T",
+                        start: 108,
+                        end: 116,
+                    },
+                    inner: [
+                        Pair {
+                            rule: ident,
+                            span: Span {
+                                str: "value",
+                                start: 108,
+                                end: 113,
+                            },
+                            inner: [],
+                        },
+                        Pair {
+                            rule: type,
+                            span: Span {
+                                str: "T",
+                                start: 115,
+                                end: 116,
+                            },
+                            inner: [
+                                Pair {
+                                    rule: ident,
+                                    span: Span {
+                                        str: "T",
+                                        start: 115,
+                                        end: 116,
+                                    },
+                                    inner: [],
+                                },
+                            ],
+                        },
+                    ],
+                },
+            ],
+        },
+        Pair {
+            rule: struct_definition,
+            span: Span {
+                str: "struct MultiGeneric<T, U> {\n\tkey: T,\n\tvalue: U\n}",
+                start: 120,
+                end: 168,
+            },
+            inner: [
+                Pair {
+                    rule: struct,
+                    span: Span {
+                        str: "struct",
+                        start: 120,
+                        end: 126,
+                    },
+                    inner: [],
+                },
+                Pair {
+                    rule: ident,
+                    span: Span {
+                        str: "MultiGeneric",
+                        start: 127,
+                        end: 139,
+                    },
+                    inner: [],
+                },
+                Pair {
+                    rule: type_generics_definition,
+                    span: Span {
+                        str: "<T, U>",
+                        start: 139,
+                        end: 145,
+                    },
+                    inner: [
+                        Pair {
+                            rule: ident,
+                            span: Span {
+                                str: "T",
+                                start: 140,
+                                end: 141,
+                            },
+                            inner: [],
+                        },
+                        Pair {
+                            rule: ident,
+                            span: Span {
+                                str: "U",
+                                start: 143,
+                                end: 144,
+                            },
+                            inner: [],
+                        },
+                    ],
+                },
+                Pair {
+                    rule: struct_member,
+                    span: Span {
+                        str: "key: T",
+                        start: 149,
+                        end: 155,
+                    },
+                    inner: [
+                        Pair {
+                            rule: ident,
+                            span: Span {
+                                str: "key",
+                                start: 149,
+                                end: 152,
+                            },
+                            inner: [],
+                        },
+                        Pair {
+                            rule: type,
+                            span: Span {
+                                str: "T",
+                                start: 154,
+                                end: 155,
+                            },
+                            inner: [
+                                Pair {
+                                    rule: ident,
+                                    span: Span {
+                                        str: "T",
+                                        start: 154,
+                                        end: 155,
+                                    },
+                                    inner: [],
+                                },
+                            ],
+                        },
+                    ],
+                },
+                Pair {
+                    rule: struct_member,
+                    span: Span {
+                        str: "value: U",
+                        start: 158,
+                        end: 166,
+                    },
+                    inner: [
+                        Pair {
+                            rule: ident,
+                            span: Span {
+                                str: "value",
+                                start: 158,
+                                end: 163,
+                            },
+                            inner: [],
+                        },
+                        Pair {
+                            rule: type,
+                            span: Span {
+                                str: "U",
+                                start: 165,
+                                end: 166,
+                            },
+                            inner: [
+                                Pair {
+                                    rule: ident,
+                                    span: Span {
+                                        str: "U",
+                                        start: 165,
+                                        end: 166,
+                                    },
+                                    inner: [],
+                                },
+                            ],
+                        },
+                    ],
+                },
+            ],
+        },
+        Pair {
+            rule: EOI,
+            span: Span {
+                str: "",
+                start: 169,
+                end: 169,
+            },
+            inner: [],
+        },
+    ],
+}

@@ -1,0 +1,17 @@
+struct Basic {
+	value: string
+}
+
+struct MultiMember {
+	key: string,
+	value: string,
+}
+
+struct Generic<T> {
+	value: T
+}
+
+struct MultiGeneric<T, U> {
+	key: T,
+	value: U
+}
