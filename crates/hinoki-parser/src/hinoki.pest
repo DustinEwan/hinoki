@@ -1,6 +1,7 @@
-file = { SOI ~ ( function_definition | struct_definition | enum_definition )* ~ EOI }
+file = { SOI ~ top_level_declaration* ~ EOI }
 
 // --- FILE TOP LEVEL DECLARATIONS
+	top_level_declaration = _{ function_definition | struct_definition | enum_definition }
 
 	// pragmas ...  #[whatever]
 

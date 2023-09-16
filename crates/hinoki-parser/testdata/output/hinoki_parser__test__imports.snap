@@ -1,0 +1,10 @@
+---
+source: crates/hinoki-parser/src/lib.rs
+expression: snapshot_parsing(contents)
+---
+ --> 1:1
+  |
+1 | import test from `test`;
+  | ^---
+  |
+  = expected import, struct, enum, fn, or EOF

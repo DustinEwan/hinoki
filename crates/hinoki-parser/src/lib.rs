@@ -1,9 +1,13 @@
+mod format_rules;
+
 use once_cell::sync::OnceCell;
 use tracing_subscriber::util::SubscriberInitExt;
 
-use pest::pratt_parser::PrattParser;
 use pest::Parser;
+use pest::{error::Error, pratt_parser::PrattParser};
 use pest_derive::Parser;
+
+use crate::format_rules::format_parse_error;
 
 #[derive(Parser)]
 #[grammar = "./hinoki.pest"]
@@ -92,12 +96,16 @@ pub enum Op {
 // }
 
 fn snapshot_parsing(input: &str) -> String {
-    let file = HinokiParser::parse(Rule::file, input)
-        .unwrap()
-        .next()
-        .unwrap();
+    let file = HinokiParser::parse(Rule::file, input);
 
-    format!("{:#?}", file)
+    match file {
+        Ok(mut file) => format!("{:#?}", file.next().unwrap()),
+        Err(e) => {
+            let e = format_parse_error(e);
+            println!("{}", e);
+            format!("{}", e)
+        }
+    }
 }
 
 pub fn setup_trace() {
