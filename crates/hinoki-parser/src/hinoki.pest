@@ -1,7 +1,7 @@
 file = { SOI ~ top_level_declaration* ~ EOI }
 
 // --- FILE TOP LEVEL DECLARATIONS
-	top_level_declaration = _{ function_definition | struct_definition | enum_definition }
+	top_level_declaration = _{ function_definition | struct_definition | enum_definition | import_stmt }
 
 	// pragmas ...  #[whatever]
 
@@ -23,6 +23,15 @@ file = { SOI ~ top_level_declaration* ~ EOI }
 	enum_variant_list = _{ enum_variant ~ ("," ~ enum_variant)* ~ ","? }
 	enum_variant = { ident ~ enum_tuple_list? }
 	enum_tuple_list = _{ "(" ~ type ~ ("," ~ type)* ~ ","? ~ ")" }
+
+	// --- IMPORT STATEMENTS
+	import_stmt = { import ~ import_parameters ~ "from" ~ import_source ~ ";" } 
+	import_parameters = _{ import_module | import_parameter_list }
+	import_module = { ident }
+	import_parameter_list = _{ "{" ~ import_parameter ~ ("," ~ import_parameter)* ~ ","? ~ "}" }
+	import_parameter = { ident ~ import_alias? }
+	import_alias = { "as" ~ ident }
+	import_source = { "`" ~ char+ ~ "`" }
 
 // --- ALL EXPRESSIONS
 prefix = _{ increment | decrement | not | subtract }
@@ -51,6 +60,7 @@ struct = { "struct" }
 enum = { "enum" }
 match = { "match" }
 pub = { "pub" }
+import = { "import" }
 
 	// --- MODES
 	mutable = { "mut" }
@@ -141,7 +151,7 @@ string = ${
 }
 
 inner = @{ char+ | ( "{" ~ expr ~ "}" )? }
-char = {
+char = _{
   !("`" | "\\" | "{" | "}" ) ~ ANY
   | "\\" ~ ( "`" | "\\" | "/" | "b" | "f" | "n" | "r" | "t" | "{" | "}" )
   | "\\" ~ ( "u" ~ ASCII_HEX_DIGIT{4} )

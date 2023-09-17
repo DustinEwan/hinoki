@@ -2,9 +2,324 @@
 source: crates/hinoki-parser/src/lib.rs
 expression: snapshot_parsing(contents)
 ---
- --> 1:1
-  |
-1 | import test from `test`;
-  | ^---
-  |
-  = expected import, struct, enum, fn, or EOF
+Pair {
+    rule: file,
+    span: Span {
+        str: "import test from `test`;\n\nimport { add, mult } from `math`;\n\nimport { add as addMeDaddy } from `math`;\n\nimport { \n\tadd as addMeDaddy,\n\tmult as multMeDaddy,\n\tmod\n} from `math`;\n\n",
+        start: 0,
+        end: 177,
+    },
+    inner: [
+        Pair {
+            rule: import_stmt,
+            span: Span {
+                str: "import test from `test`;",
+                start: 0,
+                end: 24,
+            },
+            inner: [
+                Pair {
+                    rule: import,
+                    span: Span {
+                        str: "import",
+                        start: 0,
+                        end: 6,
+                    },
+                    inner: [],
+                },
+                Pair {
+                    rule: import_module,
+                    span: Span {
+                        str: "test",
+                        start: 7,
+                        end: 11,
+                    },
+                    inner: [
+                        Pair {
+                            rule: ident,
+                            span: Span {
+                                str: "test",
+                                start: 7,
+                                end: 11,
+                            },
+                            inner: [],
+                        },
+                    ],
+                },
+                Pair {
+                    rule: import_source,
+                    span: Span {
+                        str: "`test`",
+                        start: 17,
+                        end: 23,
+                    },
+                    inner: [],
+                },
+            ],
+        },
+        Pair {
+            rule: import_stmt,
+            span: Span {
+                str: "import { add, mult } from `math`;",
+                start: 26,
+                end: 59,
+            },
+            inner: [
+                Pair {
+                    rule: import,
+                    span: Span {
+                        str: "import",
+                        start: 26,
+                        end: 32,
+                    },
+                    inner: [],
+                },
+                Pair {
+                    rule: import_parameter,
+                    span: Span {
+                        str: "add",
+                        start: 35,
+                        end: 38,
+                    },
+                    inner: [
+                        Pair {
+                            rule: ident,
+                            span: Span {
+                                str: "add",
+                                start: 35,
+                                end: 38,
+                            },
+                            inner: [],
+                        },
+                    ],
+                },
+                Pair {
+                    rule: import_parameter,
+                    span: Span {
+                        str: "mult ",
+                        start: 40,
+                        end: 45,
+                    },
+                    inner: [
+                        Pair {
+                            rule: ident,
+                            span: Span {
+                                str: "mult",
+                                start: 40,
+                                end: 44,
+                            },
+                            inner: [],
+                        },
+                    ],
+                },
+                Pair {
+                    rule: import_source,
+                    span: Span {
+                        str: "`math`",
+                        start: 52,
+                        end: 58,
+                    },
+                    inner: [],
+                },
+            ],
+        },
+        Pair {
+            rule: import_stmt,
+            span: Span {
+                str: "import { add as addMeDaddy } from `math`;",
+                start: 61,
+                end: 102,
+            },
+            inner: [
+                Pair {
+                    rule: import,
+                    span: Span {
+                        str: "import",
+                        start: 61,
+                        end: 67,
+                    },
+                    inner: [],
+                },
+                Pair {
+                    rule: import_parameter,
+                    span: Span {
+                        str: "add as addMeDaddy",
+                        start: 70,
+                        end: 87,
+                    },
+                    inner: [
+                        Pair {
+                            rule: ident,
+                            span: Span {
+                                str: "add",
+                                start: 70,
+                                end: 73,
+                            },
+                            inner: [],
+                        },
+                        Pair {
+                            rule: import_alias,
+                            span: Span {
+                                str: "as addMeDaddy",
+                                start: 74,
+                                end: 87,
+                            },
+                            inner: [
+                                Pair {
+                                    rule: ident,
+                                    span: Span {
+                                        str: "addMeDaddy",
+                                        start: 77,
+                                        end: 87,
+                                    },
+                                    inner: [],
+                                },
+                            ],
+                        },
+                    ],
+                },
+                Pair {
+                    rule: import_source,
+                    span: Span {
+                        str: "`math`",
+                        start: 95,
+                        end: 101,
+                    },
+                    inner: [],
+                },
+            ],
+        },
+        Pair {
+            rule: import_stmt,
+            span: Span {
+                str: "import { \n\tadd as addMeDaddy,\n\tmult as multMeDaddy,\n\tmod\n} from `math`;",
+                start: 104,
+                end: 175,
+            },
+            inner: [
+                Pair {
+                    rule: import,
+                    span: Span {
+                        str: "import",
+                        start: 104,
+                        end: 110,
+                    },
+                    inner: [],
+                },
+                Pair {
+                    rule: import_parameter,
+                    span: Span {
+                        str: "add as addMeDaddy",
+                        start: 115,
+                        end: 132,
+                    },
+                    inner: [
+                        Pair {
+                            rule: ident,
+                            span: Span {
+                                str: "add",
+                                start: 115,
+                                end: 118,
+                            },
+                            inner: [],
+                        },
+                        Pair {
+                            rule: import_alias,
+                            span: Span {
+                                str: "as addMeDaddy",
+                                start: 119,
+                                end: 132,
+                            },
+                            inner: [
+                                Pair {
+                                    rule: ident,
+                                    span: Span {
+                                        str: "addMeDaddy",
+                                        start: 122,
+                                        end: 132,
+                                    },
+                                    inner: [],
+                                },
+                            ],
+                        },
+                    ],
+                },
+                Pair {
+                    rule: import_parameter,
+                    span: Span {
+                        str: "mult as multMeDaddy",
+                        start: 135,
+                        end: 154,
+                    },
+                    inner: [
+                        Pair {
+                            rule: ident,
+                            span: Span {
+                                str: "mult",
+                                start: 135,
+                                end: 139,
+                            },
+                            inner: [],
+                        },
+                        Pair {
+                            rule: import_alias,
+                            span: Span {
+                                str: "as multMeDaddy",
+                                start: 140,
+                                end: 154,
+                            },
+                            inner: [
+                                Pair {
+                                    rule: ident,
+                                    span: Span {
+                                        str: "multMeDaddy",
+                                        start: 143,
+                                        end: 154,
+                                    },
+                                    inner: [],
+                                },
+                            ],
+                        },
+                    ],
+                },
+                Pair {
+                    rule: import_parameter,
+                    span: Span {
+                        str: "mod\n",
+                        start: 157,
+                        end: 161,
+                    },
+                    inner: [
+                        Pair {
+                            rule: ident,
+                            span: Span {
+                                str: "mod",
+                                start: 157,
+                                end: 160,
+                            },
+                            inner: [],
+                        },
+                    ],
+                },
+                Pair {
+                    rule: import_source,
+                    span: Span {
+                        str: "`math`",
+                        start: 168,
+                        end: 174,
+                    },
+                    inner: [],
+                },
+            ],
+        },
+        Pair {
+            rule: EOI,
+            span: Span {
+                str: "",
+                start: 177,
+                end: 177,
+            },
+            inner: [],
+        },
+    ],
+}

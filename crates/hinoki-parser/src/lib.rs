@@ -1,7 +1,7 @@
 mod format_rules;
 
 use once_cell::sync::OnceCell;
-use tracing_subscriber::util::SubscriberInitExt;
+use tracing_subscriber::{fmt::FormattedFields, util::SubscriberInitExt};
 
 use pest::Parser;
 use pest::{error::Error, pratt_parser::PrattParser};
@@ -101,9 +101,9 @@ fn snapshot_parsing(input: &str) -> String {
     match file {
         Ok(mut file) => format!("{:#?}", file.next().unwrap()),
         Err(e) => {
-            let e = format_parse_error(e);
+            let formatted_err = format_parse_error(e.clone());
             println!("{}", e);
-            format!("{}", e)
+            format!("{:#?}\n\n{}", e, formatted_err)
         }
     }
 }

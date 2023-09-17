@@ -1,1 +1,12 @@
 import test from `test`;
+
+import { add, mult } from `math`;
+
+import { add as addMeDaddy } from `math`;
+
+import { 
+	add as addMeDaddy,
+	mult as multMeDaddy,
+	mod
+} from `math`;
+
