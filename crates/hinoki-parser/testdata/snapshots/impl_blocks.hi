@@ -1,0 +1,20 @@
+
+impl SomeStruct {
+
+	fn identity(self): Self {
+		self
+	}
+
+	pub fn add(self, a: int, b: int): int {
+		a + b
+	}
+
+	fn increase_count(mut self, step: int) {
+		set self.count += step;
+	}
+
+	pub fn increase_count(mut self, step: int) {
+		set self.count += step;
+	}
+
+}

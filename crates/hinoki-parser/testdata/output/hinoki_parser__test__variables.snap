@@ -310,11 +310,20 @@ Pair {
                                     inner: [],
                                 },
                                 Pair {
-                                    rule: ident,
+                                    rule: assignment_accessor,
                                     span: Span {
                                         str: "a",
                                         start: 68,
                                         end: 69,
+                                    },
+                                    inner: [],
+                                },
+                                Pair {
+                                    rule: assign,
+                                    span: Span {
+                                        str: "=",
+                                        start: 70,
+                                        end: 71,
                                     },
                                     inner: [],
                                 },
@@ -709,11 +718,20 @@ Pair {
                                     inner: [],
                                 },
                                 Pair {
-                                    rule: ident,
+                                    rule: assignment_accessor,
                                     span: Span {
                                         str: "a",
                                         start: 168,
                                         end: 169,
+                                    },
+                                    inner: [],
+                                },
+                                Pair {
+                                    rule: assign,
+                                    span: Span {
+                                        str: "=",
+                                        start: 170,
+                                        end: 171,
                                     },
                                     inner: [],
                                 },

@@ -1,25 +1,31 @@
 file = { SOI ~ top_level_declaration* ~ EOI }
 
+// --- TYPES
+
+signature_with_generics = _{ ident ~ type_generics_definition? }
+
+type = { ident } // Update this later, there's lots to consider
+type_generics_definition = { "<" ~ generics_list ~ ">" }
+generics_list = _{ ident ~ ("," ~ ident)* ~ ","? }
+
 // --- FILE TOP LEVEL DECLARATIONS
-	top_level_declaration = _{ function_definition | struct_definition | enum_definition | import_stmt }
+	top_level_declaration = _{ function_definition | struct_definition | enum_definition | import_stmt | impl_definition }
 
 	// pragmas ...  #[whatever]
 
 	// --- FUNCTION DEFINITIONS
-	function_definition = { pub? ~ locality? ~ fn ~ ident ~ type_generics_definition? ~ "(" ~ function_parameters_list? ~ ")" ~ (":" ~ type)? ~ block_expr }
+	function_definition = { pub? ~ locality? ~ fn ~ signature_with_generics ~ "(" ~ function_parameters_list? ~ ")" ~ (":" ~ type)? ~ block_expr }
 	function_parameters_list = _{ function_parameter ~ ("," ~ function_parameter)* ~ ","? }
-	function_parameter = { exclusivity? ~ locality? ~ mutable? ~ ident ~ ":" ~ type }
-	type = { ident } // Update this later, there's lots to consider
-	type_generics_definition = { "<" ~ generics_list ~ ">" }
-	generics_list = _{ ident ~ ("," ~ ident)* ~ ","? }
+	function_parameter = { function_parameter_modes? ~ ident ~ ":" ~ type }
+	function_parameter_modes = _{ (exclusivity ~ locality ~ mutable) | (locality ~ mutable) | mutable } 
 
 	// --- STRUCT DEFINITIONS
-	struct_definition = { pub? ~ struct ~ ident ~ type_generics_definition? ~ "{" ~ struct_member_list ~ "}" }
+	struct_definition = { pub? ~ struct ~ signature_with_generics ~ "{" ~ struct_member_list ~ "}" }
 	struct_member_list = _{ struct_member ~ ("," ~ struct_member)* ~ ","? }
 	struct_member = { ident ~ ":" ~ type }
 
 	// --- ENUM DEFINITIONS
-	enum_definition = { pub? ~ enum ~ ident ~ type_generics_definition? ~ "{" ~ enum_variant_list ~ "}" }
+	enum_definition = { pub? ~ enum ~ signature_with_generics ~ "{" ~ enum_variant_list ~ "}" }
 	enum_variant_list = _{ enum_variant ~ ("," ~ enum_variant)* ~ ","? }
 	enum_variant = { ident ~ enum_tuple_list? }
 	enum_tuple_list = _{ "(" ~ type ~ ("," ~ type)* ~ ","? ~ ")" }
@@ -32,6 +38,13 @@ file = { SOI ~ top_level_declaration* ~ EOI }
 	import_parameter = { ident ~ import_alias? }
 	import_alias = { "as" ~ ident }
 	import_source = { "`" ~ char+ ~ "`" }
+
+	// --- IMPL DEFINITIONS
+	impl_definition = { pub? ~ impl ~ type_generics_definition? ~ (signature_with_generics ~ "for")? ~ signature_with_generics ~ impl_block }
+	impl_block = { "{" ~ ( impl_function_definition )* ~ "}" }
+	impl_function_definition = { pub? ~ locality? ~ fn ~ signature_with_generics ~ "(" ~ impl_function_parameters_list? ~ ")" ~ (":" ~ (self_type | type))? ~ block_expr }
+	impl_self_param = _{ exclusivity? ~ locality? ~ mutable? ~ self_param } 
+	impl_function_parameters_list = { (impl_self_param ~ "," ~ function_parameters_list) | (impl_self_param ~ ","?) | function_parameters_list }
 
 // --- ALL EXPRESSIONS
 prefix = _{ increment | decrement | not | subtract }
@@ -60,6 +73,8 @@ struct = { "struct" }
 enum = { "enum" }
 match = { "match" }
 pub = { "pub" }
+self_param = { "self" }
+self_type = { "Self" }
 import = { "import" }
 
 	// --- MODES
@@ -70,10 +85,22 @@ import = { "import" }
 
 // --- DECLARATION, ASSIGNMENT, AND STATEMENTS
 
+assignment_accessor = @{ ( ident ~ "." ~ assignment_accessor ) | ( ident ~ index_access_operation ) | ident }
+assignment_operators = _{ 
+	assign 
+	| power_assign 
+	| increment_assign 
+	| decrement_assign 
+	| multiply_assign
+	| divide_assign
+	| modulus_assign
+}
+
 declaration_stmt = { locality? ~ mutable? ~ ident ~ "=" ~ expr ~ ";" }
-mutate_stmt = { set ~ ident ~ "=" ~ expr ~ ";" }
+mutate_stmt = { set ~ assignment_accessor ~ assignment_operators ~ expr ~ ";" }
 return_stmt = { return ~ expr ~ ";" }
 expression_stmt = { expr ~ ";" }
+
 
 statement = _{ declaration_stmt | mutate_stmt | return_stmt | expression_stmt }
 
@@ -102,6 +129,14 @@ less_than_or_equal	= { "<=" }
 greater_than_or_equal	= { ">=" }
 not_equal		= { "!=" }
 
+assign			= { "=" }
+increment_assign	= { "+=" }
+decrement_assign	= { "-=" }
+multiply_assign		= { "*=" }
+divide_assign		= { "/=" }
+power_assign		= { "**=" }
+modulus_assign		= { "%=" }
+
 // The following operations are in order of highest to lowest precedence
 
 exponent_operation	= _{ power }
@@ -119,6 +154,7 @@ binary_operation 	= _{ exponent_operation | product_operation | mod_operation | 
 
 call_parameter_list = _{ unaried_term ~ ("," ~ unaried_term)* ~ ","? }
 
+member_access_operation = { "." ~ unaried_term }
 call_operation = { "(" ~ call_parameter_list? ~ ")" } 
 index_access_operation = { "[" ~ digit+ ~ "]" }
 
