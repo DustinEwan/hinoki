@@ -9,15 +9,20 @@ type_generics_definition = { "<" ~ generics_list ~ ">" }
 generics_list = _{ ident ~ ("," ~ ident)* ~ ","? }
 
 // --- FILE TOP LEVEL DECLARATIONS
-	top_level_declaration = _{ function_definition | struct_definition | enum_definition | import_stmt | impl_definition }
+	top_level_declaration = _{ function_definition 
+		| struct_definition 
+		| enum_definition 
+		| import_stmt 
+		| impl_definition 
+		| trait_definition 
+	}
 
 	// pragmas ...  #[whatever]
 
 	// --- FUNCTION DEFINITIONS
 	function_definition = { pub? ~ locality? ~ fn ~ signature_with_generics ~ "(" ~ function_parameters_list? ~ ")" ~ (":" ~ type)? ~ block_expr }
 	function_parameters_list = _{ function_parameter ~ ("," ~ function_parameter)* ~ ","? }
-	function_parameter = { function_parameter_modes? ~ ident ~ ":" ~ type }
-	function_parameter_modes = _{ (exclusivity ~ locality ~ mutable) | (locality ~ mutable) | mutable } 
+	function_parameter = { exclusivity? ~ locality? ~ mutable? ~ ident ~ ":" ~ type }
 
 	// --- STRUCT DEFINITIONS
 	struct_definition = { pub? ~ struct ~ signature_with_generics ~ "{" ~ struct_member_list ~ "}" }
@@ -40,11 +45,17 @@ generics_list = _{ ident ~ ("," ~ ident)* ~ ","? }
 	import_source = { "`" ~ char+ ~ "`" }
 
 	// --- IMPL DEFINITIONS
-	impl_definition = { pub? ~ impl ~ type_generics_definition? ~ (signature_with_generics ~ "for")? ~ signature_with_generics ~ impl_block }
+	impl_definition = { pub? ~ locality? ~ impl ~ type_generics_definition? ~ (signature_with_generics ~ "for")? ~ signature_with_generics ~ impl_block }
 	impl_block = { "{" ~ ( impl_function_definition )* ~ "}" }
-	impl_function_definition = { pub? ~ locality? ~ fn ~ signature_with_generics ~ "(" ~ impl_function_parameters_list? ~ ")" ~ (":" ~ (self_type | type))? ~ block_expr }
+	impl_function_definition = { pub? ~ locality? ~ fn ~ signature_with_generics ~ "(" ~ impl_function_parameters_list? ~ ")" ~ impl_function_return_signature? ~ block_expr }
+	impl_function_return_signature = _{ ":" ~ (self_type | type) }
 	impl_self_param = _{ exclusivity? ~ locality? ~ mutable? ~ self_param } 
-	impl_function_parameters_list = { (impl_self_param ~ "," ~ function_parameters_list) | (impl_self_param ~ ","?) | function_parameters_list }
+	impl_function_parameters_list = _{ (impl_self_param ~ "," ~ function_parameters_list) | (impl_self_param ~ ","?) | function_parameters_list }
+
+	// --- TRAIT DEFINITIONS
+	trait_definition = { pub? ~ trait ~ signature_with_generics ~ trait_block }
+	trait_block = { "{" ~ (trait_function_signature)* ~ "}" }
+	trait_function_signature = { locality? ~ fn ~ signature_with_generics ~ "(" ~ impl_function_parameters_list? ~ ")" ~ impl_function_return_signature ~ ";" }
 
 // --- ALL EXPRESSIONS
 prefix = _{ increment | decrement | not | subtract }
@@ -96,7 +107,9 @@ assignment_operators = _{
 	| modulus_assign
 }
 
-declaration_stmt = { locality? ~ mutable? ~ ident ~ "=" ~ expr ~ ";" }
+declaration_type_signature = _{ ":" ~ signature_with_generics }
+
+declaration_stmt = { locality? ~ mutable? ~ ident ~ declaration_type_signature ~ "=" ~ expr ~ ";" }
 mutate_stmt = { set ~ assignment_accessor ~ assignment_operators ~ expr ~ ";" }
 return_stmt = { return ~ expr ~ ";" }
 expression_stmt = { expr ~ ";" }

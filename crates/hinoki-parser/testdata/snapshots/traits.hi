@@ -1,0 +1,25 @@
+
+trait HelloWorld {
+	fn hi(): string;
+}
+
+pub trait HelloWorld {
+	fn hi(): string;
+}
+
+pub trait WithGenerics<T, U> {
+	fn test(var1: T, var2: int): U;
+}
+
+pub trait SelfStuff {
+	fn default(): Self;
+	fn test1(self): Self;
+	fn test2(mut self): Self;
+	fn test3(local mut self): Self;
+	fn test3(exclusive mut self): Self;
+	fn test4(unique mut self): Self;
+	fn test5(unique local mut self): Self;
+
+	local fn stack_default(): Self;
+	local fn test6(local mut self): Self;
+}

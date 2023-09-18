@@ -17,4 +17,9 @@ impl SomeStruct {
 		set self.count += step;
 	}
 
+	pub local fn add_stack(self, a: int, b: int): int {
+		local sum: int = a + b;
+		sum
+	}
+
 }
