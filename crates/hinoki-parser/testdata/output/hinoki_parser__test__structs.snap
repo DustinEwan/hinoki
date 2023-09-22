@@ -39,9 +39,9 @@ Pair {
                 Pair {
                     rule: struct_member,
                     span: Span {
-                        str: "value: string",
+                        str: "value: string\n",
                         start: 16,
-                        end: 29,
+                        end: 30,
                     },
                     inner: [
                         Pair {
@@ -56,9 +56,9 @@ Pair {
                         Pair {
                             rule: type,
                             span: Span {
-                                str: "string",
+                                str: "string\n",
                                 start: 23,
-                                end: 29,
+                                end: 30,
                             },
                             inner: [
                                 Pair {
@@ -228,9 +228,9 @@ Pair {
                 Pair {
                     rule: struct_member,
                     span: Span {
-                        str: "value: T",
+                        str: "value: T\n",
                         start: 108,
-                        end: 116,
+                        end: 117,
                     },
                     inner: [
                         Pair {
@@ -245,9 +245,9 @@ Pair {
                         Pair {
                             rule: type,
                             span: Span {
-                                str: "T",
+                                str: "T\n",
                                 start: 115,
-                                end: 116,
+                                end: 117,
                             },
                             inner: [
                                 Pair {
@@ -360,9 +360,9 @@ Pair {
                 Pair {
                     rule: struct_member,
                     span: Span {
-                        str: "value: U",
+                        str: "value: U\n",
                         start: 158,
-                        end: 166,
+                        end: 167,
                     },
                     inner: [
                         Pair {
@@ -377,9 +377,9 @@ Pair {
                         Pair {
                             rule: type,
                             span: Span {
-                                str: "U",
+                                str: "U\n",
                                 start: 165,
-                                end: 166,
+                                end: 167,
                             },
                             inner: [
                                 Pair {

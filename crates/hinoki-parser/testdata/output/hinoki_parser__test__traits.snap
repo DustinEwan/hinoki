@@ -287,76 +287,86 @@ Pair {
                                     inner: [],
                                 },
                                 Pair {
-                                    rule: function_parameter,
+                                    rule: function_parameters_list,
                                     span: Span {
-                                        str: "var1: T",
+                                        str: "var1: T, var2: int",
                                         start: 125,
-                                        end: 132,
+                                        end: 143,
                                     },
                                     inner: [
                                         Pair {
-                                            rule: ident,
+                                            rule: function_parameter,
                                             span: Span {
-                                                str: "var1",
+                                                str: "var1: T",
                                                 start: 125,
-                                                end: 129,
-                                            },
-                                            inner: [],
-                                        },
-                                        Pair {
-                                            rule: type,
-                                            span: Span {
-                                                str: "T",
-                                                start: 131,
                                                 end: 132,
                                             },
                                             inner: [
                                                 Pair {
                                                     rule: ident,
                                                     span: Span {
+                                                        str: "var1",
+                                                        start: 125,
+                                                        end: 129,
+                                                    },
+                                                    inner: [],
+                                                },
+                                                Pair {
+                                                    rule: type,
+                                                    span: Span {
                                                         str: "T",
                                                         start: 131,
                                                         end: 132,
                                                     },
-                                                    inner: [],
+                                                    inner: [
+                                                        Pair {
+                                                            rule: ident,
+                                                            span: Span {
+                                                                str: "T",
+                                                                start: 131,
+                                                                end: 132,
+                                                            },
+                                                            inner: [],
+                                                        },
+                                                    ],
                                                 },
                                             ],
                                         },
-                                    ],
-                                },
-                                Pair {
-                                    rule: function_parameter,
-                                    span: Span {
-                                        str: "var2: int",
-                                        start: 134,
-                                        end: 143,
-                                    },
-                                    inner: [
                                         Pair {
-                                            rule: ident,
+                                            rule: function_parameter,
                                             span: Span {
-                                                str: "var2",
+                                                str: "var2: int",
                                                 start: 134,
-                                                end: 138,
-                                            },
-                                            inner: [],
-                                        },
-                                        Pair {
-                                            rule: type,
-                                            span: Span {
-                                                str: "int",
-                                                start: 140,
                                                 end: 143,
                                             },
                                             inner: [
                                                 Pair {
                                                     rule: ident,
                                                     span: Span {
+                                                        str: "var2",
+                                                        start: 134,
+                                                        end: 138,
+                                                    },
+                                                    inner: [],
+                                                },
+                                                Pair {
+                                                    rule: type,
+                                                    span: Span {
                                                         str: "int",
                                                         start: 140,
                                                         end: 143,
                                                     },
-                                                    inner: [],
+                                                    inner: [
+                                                        Pair {
+                                                            rule: ident,
+                                                            span: Span {
+                                                                str: "int",
+                                                                start: 140,
+                                                                end: 143,
+                                                            },
+                                                            inner: [],
+                                                        },
+                                                    ],
                                                 },
                                             ],
                                         },

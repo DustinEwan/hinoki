@@ -27,6 +27,7 @@ Error {
             less_than_or_equal,
             greater_than_or_equal,
             not_equal,
+            member_access_operation,
             call_operation,
             index_access_operation,
         ],
@@ -51,4 +52,4 @@ Error {
 3 | 	a = 5;
   | 	  ^---
   |
-  = expected expr, set, return, declaration_stmt, add, subtract, multiply, divide, power, modulus, shift_left, shift_right, bitwise_and, bitwise_or, xor, not, less_than, greater_than, equal, less_than_or_equal, greater_than_or_equal, not_equal, call_operation, or index_access_operation
+  = expected expr, set, return, declaration_stmt, add, subtract, multiply, divide, power, modulus, shift_left, shift_right, bitwise_and, bitwise_or, xor, not, less_than, greater_than, equal, less_than_or_equal, greater_than_or_equal, not_equal, member_access_operation, call_operation, or index_access_operation

@@ -1,0 +1,194 @@
+---
+source: crates/hinoki-parser/src/lib.rs
+expression: ast_parsing(contents)
+---
+Program {
+    instructions: [
+        FunctionDefinition(
+            FunctionDefinition {
+                visibility: Private,
+                locality: Global,
+                name: "test",
+                parameters: [],
+                generic_parameters: None,
+                return_type: Inferred,
+                body: BlockExpr {
+                    commands: [],
+                },
+            },
+        ),
+        FunctionDefinition(
+            FunctionDefinition {
+                visibility: Private,
+                locality: Global,
+                name: "test",
+                parameters: [
+                    FunctionParameter {
+                        locality: Global,
+                        exclusivity: Shared,
+                        mutability: Immutable,
+                        name: "x",
+                        type: UserDefined(
+                            UserDefinedType {
+                                name: "string",
+                                generic_parameters: None,
+                            },
+                        ),
+                    },
+                ],
+                generic_parameters: None,
+                return_type: Inferred,
+                body: BlockExpr {
+                    commands: [],
+                },
+            },
+        ),
+        FunctionDefinition(
+            FunctionDefinition {
+                visibility: Private,
+                locality: Global,
+                name: "test",
+                parameters: [
+                    FunctionParameter {
+                        locality: Global,
+                        exclusivity: Shared,
+                        mutability: Immutable,
+                        name: "a",
+                        type: Integer {
+                            signed: true,
+                            size: 64,
+                        },
+                    },
+                    FunctionParameter {
+                        locality: Global,
+                        exclusivity: Shared,
+                        mutability: Immutable,
+                        name: "b",
+                        type: Integer {
+                            signed: true,
+                            size: 64,
+                        },
+                    },
+                ],
+                generic_parameters: None,
+                return_type: Inferred,
+                body: BlockExpr {
+                    commands: [],
+                },
+            },
+        ),
+        FunctionDefinition(
+            FunctionDefinition {
+                visibility: Public,
+                locality: Global,
+                name: "test",
+                parameters: [],
+                generic_parameters: None,
+                return_type: Inferred,
+                body: BlockExpr {
+                    commands: [],
+                },
+            },
+        ),
+        FunctionDefinition(
+            FunctionDefinition {
+                visibility: Private,
+                locality: Local,
+                name: "test",
+                parameters: [],
+                generic_parameters: None,
+                return_type: Inferred,
+                body: BlockExpr {
+                    commands: [],
+                },
+            },
+        ),
+        FunctionDefinition(
+            FunctionDefinition {
+                visibility: Private,
+                locality: Global,
+                name: "test",
+                parameters: [],
+                generic_parameters: None,
+                return_type: Inferred,
+                body: BlockExpr {
+                    commands: [],
+                },
+            },
+        ),
+        FunctionDefinition(
+            FunctionDefinition {
+                visibility: Public,
+                locality: Local,
+                name: "test",
+                parameters: [],
+                generic_parameters: None,
+                return_type: Inferred,
+                body: BlockExpr {
+                    commands: [],
+                },
+            },
+        ),
+        FunctionDefinition(
+            FunctionDefinition {
+                visibility: Public,
+                locality: Global,
+                name: "test",
+                parameters: [],
+                generic_parameters: None,
+                return_type: Inferred,
+                body: BlockExpr {
+                    commands: [],
+                },
+            },
+        ),
+        FunctionDefinition(
+            FunctionDefinition {
+                visibility: Public,
+                locality: Global,
+                name: "test",
+                parameters: [
+                    FunctionParameter {
+                        locality: Global,
+                        exclusivity: Shared,
+                        mutability: Immutable,
+                        name: "a",
+                        type: UserDefined(
+                            UserDefinedType {
+                                name: "T",
+                                generic_parameters: None,
+                            },
+                        ),
+                    },
+                    FunctionParameter {
+                        locality: Global,
+                        exclusivity: Shared,
+                        mutability: Immutable,
+                        name: "b",
+                        type: UserDefined(
+                            UserDefinedType {
+                                name: "Vec",
+                                generic_parameters: Some(
+                                    [
+                                        "T",
+                                    ],
+                                ),
+                            },
+                        ),
+                    },
+                ],
+                generic_parameters: Some(
+                    [
+                        "T",
+                        "U",
+                    ],
+                ),
+                return_type: Inferred,
+                body: BlockExpr {
+                    commands: [],
+                },
+            },
+        ),
+        EOI,
+    ],
+}

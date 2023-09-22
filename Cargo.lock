@@ -117,15 +117,21 @@ name = "hinoki"
 version = "0.1.0"
 
 [[package]]
+name = "hinoki-ast"
+version = "0.1.0"
+
+[[package]]
 name = "hinoki-parser"
 version = "0.1.0"
 dependencies = [
+ "hinoki-ast",
  "insta",
  "lazy_static",
  "once_cell",
  "pest",
  "pest_derive",
  "snap_builder",
+ "thiserror",
  "tracing",
  "tracing-subscriber",
 ]

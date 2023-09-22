@@ -4,207 +4,219 @@ file = { SOI ~ top_level_declaration* ~ EOI }
 
 signature_with_generics = _{ ident ~ type_generics_definition? }
 
-type = { ident } // Update this later, there's lots to consider
-type_generics_definition = { "<" ~ generics_list ~ ">" }
-generics_list = _{ ident ~ ("," ~ ident)* ~ ","? }
+type = { ident ~ type_generics_definition? }
+// Update this later, there's lots to consider
+type_generics_definition =  { "<" ~ generics_list ~ ">" }
+generics_list            = _{ ident ~ ("," ~ ident)* ~ ","? }
 
 // --- FILE TOP LEVEL DECLARATIONS
-	top_level_declaration = _{ function_definition 
-		| struct_definition 
-		| enum_definition 
-		| import_stmt 
-		| impl_definition 
-		| trait_definition 
-	}
+top_level_declaration = _{
+    function_definition
+  | struct_definition
+  | enum_definition
+  | import_stmt
+  | impl_definition
+  | trait_definition
+}
 
-	// pragmas ...  #[whatever]
+// pragmas ...  #[whatever]
 
-	// --- FUNCTION DEFINITIONS
-	function_definition = { pub? ~ locality? ~ fn ~ signature_with_generics ~ "(" ~ function_parameters_list? ~ ")" ~ (":" ~ type)? ~ block_expr }
-	function_parameters_list = _{ function_parameter ~ ("," ~ function_parameter)* ~ ","? }
-	function_parameter = { exclusivity? ~ locality? ~ mutable? ~ ident ~ ":" ~ type }
+// --- FUNCTION DEFINITIONS
+function_definition      =  { pub? ~ locality? ~ fn ~ signature_with_generics ~ "(" ~ function_parameters_list? ~ ")" ~ (":" ~ type)? ~ block_expr }
+function_parameters_list =  { function_parameter ~ ("," ~ function_parameter)* ~ ","? }
+function_parameter       =  { exclusivity? ~ locality? ~ mutable? ~ ident ~ ":" ~ type }
 
-	// --- STRUCT DEFINITIONS
-	struct_definition = { pub? ~ struct ~ signature_with_generics ~ "{" ~ struct_member_list ~ "}" }
-	struct_member_list = _{ struct_member ~ ("," ~ struct_member)* ~ ","? }
-	struct_member = { ident ~ ":" ~ type }
+// --- STRUCT DEFINITIONS
+struct_definition  =  { pub? ~ struct ~ signature_with_generics ~ "{" ~ struct_member_list ~ "}" }
+struct_member_list = _{ struct_member ~ ("," ~ struct_member)* ~ ","? }
+struct_member      =  { ident ~ ":" ~ type }
 
-	// --- ENUM DEFINITIONS
-	enum_definition = { pub? ~ enum ~ signature_with_generics ~ "{" ~ enum_variant_list ~ "}" }
-	enum_variant_list = _{ enum_variant ~ ("," ~ enum_variant)* ~ ","? }
-	enum_variant = { ident ~ enum_tuple_list? }
-	enum_tuple_list = _{ "(" ~ type ~ ("," ~ type)* ~ ","? ~ ")" }
+// --- ENUM DEFINITIONS
+enum_definition   =  { pub? ~ enum ~ signature_with_generics ~ "{" ~ enum_variant_list ~ "}" }
+enum_variant_list = _{ enum_variant ~ ("," ~ enum_variant)* ~ ","? }
+enum_variant      =  { ident ~ enum_tuple_list? }
+enum_tuple_list   = _{ "(" ~ type ~ ("," ~ type)* ~ ","? ~ ")" }
 
-	// --- IMPORT STATEMENTS
-	import_stmt = { import ~ import_parameters ~ "from" ~ import_source ~ ";" } 
-	import_parameters = _{ import_module | import_parameter_list }
-	import_module = { ident }
-	import_parameter_list = _{ "{" ~ import_parameter ~ ("," ~ import_parameter)* ~ ","? ~ "}" }
-	import_parameter = { ident ~ import_alias? }
-	import_alias = { "as" ~ ident }
-	import_source = { "`" ~ char+ ~ "`" }
+// --- IMPORT STATEMENTS
+import_stmt           =  { import ~ import_parameters ~ "from" ~ import_source ~ ";" }
+import_parameters     = _{ import_module | import_parameter_list }
+import_module         =  { ident }
+import_parameter_list = _{ "{" ~ import_parameter ~ ("," ~ import_parameter)* ~ ","? ~ "}" }
+import_parameter      =  { ident ~ import_alias? }
+import_alias          =  { "as" ~ ident }
+import_source         =  { "`" ~ char+ ~ "`" }
 
-	// --- IMPL DEFINITIONS
-	impl_definition = { pub? ~ locality? ~ impl ~ type_generics_definition? ~ (signature_with_generics ~ "for")? ~ signature_with_generics ~ impl_block }
-	impl_block = { "{" ~ ( impl_function_definition )* ~ "}" }
-	impl_function_definition = { pub? ~ locality? ~ fn ~ signature_with_generics ~ "(" ~ impl_function_parameters_list? ~ ")" ~ impl_function_return_signature? ~ block_expr }
-	impl_function_return_signature = _{ ":" ~ (self_type | type) }
-	impl_self_param = _{ exclusivity? ~ locality? ~ mutable? ~ self_param } 
-	impl_function_parameters_list = _{ (impl_self_param ~ "," ~ function_parameters_list) | (impl_self_param ~ ","?) | function_parameters_list }
+// --- IMPL DEFINITIONS
+impl_definition                =  { pub? ~ locality? ~ impl ~ type_generics_definition? ~ (signature_with_generics ~ "for")? ~ signature_with_generics ~ impl_block }
+impl_block                     =  { "{" ~ (impl_function_definition)* ~ "}" }
+impl_function_definition       =  { pub? ~ locality? ~ fn ~ signature_with_generics ~ "(" ~ impl_function_parameters_list? ~ ")" ~ impl_function_return_signature? ~ block_expr }
+impl_function_return_signature = _{ ":" ~ (self_type | type) }
+impl_self_param                = _{ exclusivity? ~ locality? ~ mutable? ~ self_param }
+impl_function_parameters_list  = _{ (impl_self_param ~ "," ~ function_parameters_list) | (impl_self_param ~ ","?) | function_parameters_list }
 
-	// --- TRAIT DEFINITIONS
-	trait_definition = { pub? ~ trait ~ signature_with_generics ~ trait_block }
-	trait_block = { "{" ~ (trait_function_signature)* ~ "}" }
-	trait_function_signature = { locality? ~ fn ~ signature_with_generics ~ "(" ~ impl_function_parameters_list? ~ ")" ~ impl_function_return_signature ~ ";" }
+// --- TRAIT DEFINITIONS
+trait_definition         = { pub? ~ trait ~ signature_with_generics ~ trait_block }
+trait_block              = { "{" ~ (trait_function_signature)* ~ "}" }
+trait_function_signature = { locality? ~ fn ~ signature_with_generics ~ "(" ~ impl_function_parameters_list? ~ ")" ~ impl_function_return_signature ~ ";" }
 
 // --- ALL EXPRESSIONS
-prefix = _{ increment | decrement | not | subtract }
-postfix = _{ call_operation | index_access_operation } 
+prefix  = _{ increment | decrement | not | subtract }
+postfix = _{ call_operation | index_access_operation | member_access_operation }
 
-unaried_term = _{ prefix? ~ postfixed_term }
+unaried_term   = _{ prefix? ~ postfixed_term }
 postfixed_term = _{ term ~ postfix* }
-term = { ( "(" ~ expr ~ ")" ) | primary_expr } // Include all other expression types here!
+term           =  { ("(" ~ expr ~ ")") | primary_expr }
+// Include all other expression types here!
 
-block_expr = { "{" ~ ( statement | expr )* ~ "}" }
+block_expr   =  { "{" ~ (statement | expr)* ~ "}" }
 primary_expr = _{ ident | literal }
 
-expr = !{ unaried_term ~ ( binary_operation ~ unaried_term )* }
+expr = !{ unaried_term ~ (binary_operation ~ unaried_term)* }
 
 // --- IDENTIFIERS AND KEYWORDS
-alpha = { 'a'..'z' | 'A'..'Z' }
-digit = { '0'..'9' }
+alpha =  { 'a'..'z' | 'A'..'Z' }
+digit =  { '0'..'9' }
 ident = @{ !digit ~ (alpha | digit | "_" | "$")+ }
 
-set = { "set" }
-return = { "return" }
-fn = { "fn" }
-impl = { "impl" }
-trait = { "trait" }
-struct = { "struct" }
-enum = { "enum" }
-match = { "match" }
-pub = { "pub" }
+set        = { "set" }
+return     = { "return" }
+fn         = { "fn" }
+impl       = { "impl" }
+trait      = { "trait" }
+struct     = { "struct" }
+enum       = { "enum" }
+match      = { "match" }
+pub        = { "pub" }
 self_param = { "self" }
-self_type = { "Self" }
-import = { "import" }
+self_type  = { "Self" }
+import     = { "import" }
 
-	// --- MODES
-	mutable = { "mut" }
-	locality = { "local" | "global" }
-	exclusivity = { "shared" | "exclusive" | "unique" }
-
+// --- MODES
+mutable     = { "mut" }
+locality    = { "local" | "global" }
+exclusivity = { "shared" | "exclusive" | "unique" }
 
 // --- DECLARATION, ASSIGNMENT, AND STATEMENTS
 
-assignment_accessor = @{ ( ident ~ "." ~ assignment_accessor ) | ( ident ~ index_access_operation ) | ident }
-assignment_operators = _{ 
-	assign 
-	| power_assign 
-	| increment_assign 
-	| decrement_assign 
-	| multiply_assign
-	| divide_assign
-	| modulus_assign
+assignment_accessor  = @{ (ident ~ "." ~ assignment_accessor) | (ident ~ index_access_operation) | ident }
+assignment_operators = _{
+    assign
+  | power_assign
+  | increment_assign
+  | decrement_assign
+  | multiply_assign
+  | divide_assign
+  | modulus_assign
 }
 
 declaration_type_signature = _{ ":" ~ signature_with_generics }
 
 declaration_stmt = { locality? ~ mutable? ~ ident ~ declaration_type_signature ~ "=" ~ expr ~ ";" }
-mutate_stmt = { set ~ assignment_accessor ~ assignment_operators ~ expr ~ ";" }
-return_stmt = { return ~ expr ~ ";" }
-expression_stmt = { expr ~ ";" }
-
+mutate_stmt      = { set ~ assignment_accessor ~ assignment_operators ~ expr ~ ";" }
+return_stmt      = { return ~ expr ~ ";" }
+expression_stmt  = { expr ~ ";" }
 
 statement = _{ declaration_stmt | mutate_stmt | return_stmt | expression_stmt }
 
-// --- OPERATORS 
+// --- OPERATORS
 
-add			= { "+" }
-subtract		= { "-" }
-multiply		= { "*" }
-divide			= { "/" }
-power			= { "**" }
-modulus			= { "%" }
-increment		= { "++" }
-decrement		= { "--" }
+add       = { "+" }
+subtract  = { "-" }
+multiply  = { "*" }
+divide    = { "/" }
+power     = { "**" }
+modulus   = { "%" }
+increment = { "++" }
+decrement = { "--" }
 
-shift_left		= { "<<" }
-shift_right		= { ">>" }
-bitwise_and 		= { "&" }
-bitwise_or		= { "|" }
-xor			= { "^" }
-not			= { "!" }
+shift_left  = { "<<" }
+shift_right = { ">>" }
+bitwise_and = { "&" }
+bitwise_or  = { "|" }
+xor         = { "^" }
+not         = { "!" }
 
-less_than		= { "<" }
-greater_than		= { ">" }
-equal			= { "==" }
-less_than_or_equal	= { "<=" }
-greater_than_or_equal	= { ">=" }
-not_equal		= { "!=" }
+less_than             = { "<" }
+greater_than          = { ">" }
+equal                 = { "==" }
+less_than_or_equal    = { "<=" }
+greater_than_or_equal = { ">=" }
+not_equal             = { "!=" }
 
-assign			= { "=" }
-increment_assign	= { "+=" }
-decrement_assign	= { "-=" }
-multiply_assign		= { "*=" }
-divide_assign		= { "/=" }
-power_assign		= { "**=" }
-modulus_assign		= { "%=" }
+assign           = { "=" }
+increment_assign = { "+=" }
+decrement_assign = { "-=" }
+multiply_assign  = { "*=" }
+divide_assign    = { "/=" }
+power_assign     = { "**=" }
+modulus_assign   = { "%=" }
 
 // The following operations are in order of highest to lowest precedence
 
-exponent_operation	= _{ power }
-product_operation 	= _{ multiply | divide }
-mod_operation 		= _{ modulus }
-sum_operation 		= _{ add | subtract }
-shift_operation 	= _{ shift_left | shift_right }
-logical_operation	= _{ less_than | greater_than | equal | less_than_or_equal | greater_than_or_equal | not_equal }
-negation_operation	= _{ not }
-and_operation		= _{ bitwise_and }
-or_operation		= _{ bitwise_or }
-xor_operation		= _{ xor }
+exponent_operation = _{ power }
+product_operation  = _{ multiply | divide }
+mod_operation      = _{ modulus }
+sum_operation      = _{ add | subtract }
+shift_operation    = _{ shift_left | shift_right }
+logical_operation  = _{ less_than | greater_than | equal | less_than_or_equal | greater_than_or_equal | not_equal }
+negation_operation = _{ not }
+and_operation      = _{ bitwise_and }
+or_operation       = _{ bitwise_or }
+xor_operation      = _{ xor }
 
-binary_operation 	= _{ exponent_operation | product_operation | mod_operation | sum_operation | shift_operation | logical_operation | negation_operation | and_operation | or_operation | xor_operation }
+binary_operation = _{
+    exponent_operation
+  | product_operation
+  | mod_operation
+  | sum_operation
+  | shift_operation
+  | logical_operation
+  | negation_operation
+  | and_operation
+  | or_operation
+  | xor_operation
+}
 
 call_parameter_list = _{ unaried_term ~ ("," ~ unaried_term)* ~ ","? }
 
 member_access_operation = { "." ~ unaried_term }
-call_operation = { "(" ~ call_parameter_list? ~ ")" } 
-index_access_operation = { "[" ~ digit+ ~ "]" }
+call_operation          = { "(" ~ call_parameter_list? ~ ")" }
+index_access_operation  = { "[" ~ digit+ ~ "]" }
 
 // --- PRIMITIVES
 
 literal = _{ number | boolean | string }
 
 binary_digit = { "0" | "1" }
-octal_digit = { '0'..'7' }
-hex_digit = { digit | 'a'..'f' | 'A'..'F' }
+octal_digit  = { '0'..'7' }
+hex_digit    = { digit | 'a'..'f' | 'A'..'F' }
 
-int = @{ digit+ }
-hex_int = @{ "0x" ~ hex_digit+ }
-octal_int = @{ "0o" ~ octal_digit+ }
-binary_int = @{ "0b" ~ binary_digit+ }
+int            = @{ digit+ }
+hex_int        = @{ "0x" ~ hex_digit+ }
+octal_int      = @{ "0o" ~ octal_digit+ }
+binary_int     = @{ "0b" ~ binary_digit+ }
 scientific_int = @{ digit+ ~ scientific_suffix }
-int_term = _{ int | hex_int | octal_int | binary_int | scientific_int }
+int_term       = _{ int | hex_int | octal_int | binary_int | scientific_int }
 
-float = @{ digit+ ~ "." ~ digit+ }
+float            = @{ digit+ ~ "." ~ digit+ }
 scientific_float = @{ float ~ scientific_suffix }
-float_term = _{ float | scientific_float }
+float_term       = _{ float | scientific_float }
 
 scientific_suffix = _{ "e" ~ digit+ }
 
-number = _{ int_term | float_term }
-boolean = { "true" | "false" }
+number  = _{ int_term | float_term }
+boolean =  { "true" | "false" }
 
-string = ${ 
- "`" ~ inner? ~ "`"
+string = ${
+    "`" ~ inner? ~ "`"
 }
 
-inner = @{ char+ | ( "{" ~ expr ~ "}" )? }
-char = _{
-  !("`" | "\\" | "{" | "}" ) ~ ANY
-  | "\\" ~ ( "`" | "\\" | "/" | "b" | "f" | "n" | "r" | "t" | "{" | "}" )
-  | "\\" ~ ( "u" ~ ASCII_HEX_DIGIT{4} )
+inner = @{ char+ | ("{" ~ expr ~ "}")? }
+char  = _{
+    !("`" | "\\" | "{" | "}") ~ ANY
+  | "\\" ~ ("`" | "\\" | "/" | "b" | "f" | "n" | "r" | "t" | "{" | "}")
+  | "\\" ~ ("u" ~ ASCII_HEX_DIGIT{4})
 }
 
 WHITESPACE = _{ " " | "\t" | "\r" | "\n" }
-COMMENT = _{ "/*" ~ (!"*/" ~ ANY)* ~ "*/" }
+COMMENT    = _{ "/*" ~ (!"*/" ~ ANY)* ~ "*/" }

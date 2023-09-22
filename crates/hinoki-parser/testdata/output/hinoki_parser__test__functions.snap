@@ -5,9 +5,9 @@ expression: snapshot_parsing(contents)
 Pair {
     rule: file,
     span: Span {
-        str: "\nfn test() {\n\t`hello world`\n}\n\nfn test(x: string) {\n\tx\t\n}\n\nfn test(a: int, b: int) {\n\ta + b\n}\n\npub fn test() {\n\t`hello world`\n}\n\nlocal fn test() {\n\t`hello world`\n}\n\nglobal fn test() {\n\t`hello world`\n}\n\npub local fn test() {\n\t`hello world`\n}\n\npub global fn test() {\n\t`hello world`\n}\n",
+        str: "\nfn test() {\n\t`hello world`\n}\n\nfn test(x: string) {\n\tx\t\n}\n\nfn test(a: int, b: int) {\n\ta + b\n}\n\npub fn test() {\n\t`hello world`\n}\n\nlocal fn test() {\n\t`hello world`\n}\n\nglobal fn test() {\n\t`hello world`\n}\n\npub local fn test() {\n\t`hello world`\n}\n\npub global fn test() {\n\t`hello world`\n}\n\npub fn test<T, U>(a: T, b: Vec<T>): U {\n\ta.into()\n}\n",
         start: 0,
-        end: 282,
+        end: 335,
     },
     inner: [
         Pair {
@@ -114,7 +114,7 @@ Pair {
                     inner: [],
                 },
                 Pair {
-                    rule: function_parameter,
+                    rule: function_parameters_list,
                     span: Span {
                         str: "x: string",
                         start: 39,
@@ -122,30 +122,40 @@ Pair {
                     },
                     inner: [
                         Pair {
-                            rule: ident,
+                            rule: function_parameter,
                             span: Span {
-                                str: "x",
+                                str: "x: string",
                                 start: 39,
-                                end: 40,
-                            },
-                            inner: [],
-                        },
-                        Pair {
-                            rule: type,
-                            span: Span {
-                                str: "string",
-                                start: 42,
                                 end: 48,
                             },
                             inner: [
                                 Pair {
                                     rule: ident,
                                     span: Span {
+                                        str: "x",
+                                        start: 39,
+                                        end: 40,
+                                    },
+                                    inner: [],
+                                },
+                                Pair {
+                                    rule: type,
+                                    span: Span {
                                         str: "string",
                                         start: 42,
                                         end: 48,
                                     },
-                                    inner: [],
+                                    inner: [
+                                        Pair {
+                                            rule: ident,
+                                            span: Span {
+                                                str: "string",
+                                                start: 42,
+                                                end: 48,
+                                            },
+                                            inner: [],
+                                        },
+                                    ],
                                 },
                             ],
                         },
@@ -219,76 +229,86 @@ Pair {
                     inner: [],
                 },
                 Pair {
-                    rule: function_parameter,
+                    rule: function_parameters_list,
                     span: Span {
-                        str: "a: int",
+                        str: "a: int, b: int",
                         start: 67,
-                        end: 73,
+                        end: 81,
                     },
                     inner: [
                         Pair {
-                            rule: ident,
+                            rule: function_parameter,
                             span: Span {
-                                str: "a",
+                                str: "a: int",
                                 start: 67,
-                                end: 68,
-                            },
-                            inner: [],
-                        },
-                        Pair {
-                            rule: type,
-                            span: Span {
-                                str: "int",
-                                start: 70,
                                 end: 73,
                             },
                             inner: [
                                 Pair {
                                     rule: ident,
                                     span: Span {
+                                        str: "a",
+                                        start: 67,
+                                        end: 68,
+                                    },
+                                    inner: [],
+                                },
+                                Pair {
+                                    rule: type,
+                                    span: Span {
                                         str: "int",
                                         start: 70,
                                         end: 73,
                                     },
-                                    inner: [],
+                                    inner: [
+                                        Pair {
+                                            rule: ident,
+                                            span: Span {
+                                                str: "int",
+                                                start: 70,
+                                                end: 73,
+                                            },
+                                            inner: [],
+                                        },
+                                    ],
                                 },
                             ],
                         },
-                    ],
-                },
-                Pair {
-                    rule: function_parameter,
-                    span: Span {
-                        str: "b: int",
-                        start: 75,
-                        end: 81,
-                    },
-                    inner: [
                         Pair {
-                            rule: ident,
+                            rule: function_parameter,
                             span: Span {
-                                str: "b",
+                                str: "b: int",
                                 start: 75,
-                                end: 76,
-                            },
-                            inner: [],
-                        },
-                        Pair {
-                            rule: type,
-                            span: Span {
-                                str: "int",
-                                start: 78,
                                 end: 81,
                             },
                             inner: [
                                 Pair {
                                     rule: ident,
                                     span: Span {
+                                        str: "b",
+                                        start: 75,
+                                        end: 76,
+                                    },
+                                    inner: [],
+                                },
+                                Pair {
+                                    rule: type,
+                                    span: Span {
                                         str: "int",
                                         start: 78,
                                         end: 81,
                                     },
-                                    inner: [],
+                                    inner: [
+                                        Pair {
+                                            rule: ident,
+                                            span: Span {
+                                                str: "int",
+                                                start: 78,
+                                                end: 81,
+                                            },
+                                            inner: [],
+                                        },
+                                    ],
                                 },
                             ],
                         },
@@ -812,11 +832,277 @@ Pair {
             ],
         },
         Pair {
+            rule: function_definition,
+            span: Span {
+                str: "pub fn test<T, U>(a: T, b: Vec<T>): U {\n\ta.into()\n}",
+                start: 283,
+                end: 334,
+            },
+            inner: [
+                Pair {
+                    rule: pub,
+                    span: Span {
+                        str: "pub",
+                        start: 283,
+                        end: 286,
+                    },
+                    inner: [],
+                },
+                Pair {
+                    rule: fn,
+                    span: Span {
+                        str: "fn",
+                        start: 287,
+                        end: 289,
+                    },
+                    inner: [],
+                },
+                Pair {
+                    rule: ident,
+                    span: Span {
+                        str: "test",
+                        start: 290,
+                        end: 294,
+                    },
+                    inner: [],
+                },
+                Pair {
+                    rule: type_generics_definition,
+                    span: Span {
+                        str: "<T, U>",
+                        start: 294,
+                        end: 300,
+                    },
+                    inner: [
+                        Pair {
+                            rule: ident,
+                            span: Span {
+                                str: "T",
+                                start: 295,
+                                end: 296,
+                            },
+                            inner: [],
+                        },
+                        Pair {
+                            rule: ident,
+                            span: Span {
+                                str: "U",
+                                start: 298,
+                                end: 299,
+                            },
+                            inner: [],
+                        },
+                    ],
+                },
+                Pair {
+                    rule: function_parameters_list,
+                    span: Span {
+                        str: "a: T, b: Vec<T>",
+                        start: 301,
+                        end: 316,
+                    },
+                    inner: [
+                        Pair {
+                            rule: function_parameter,
+                            span: Span {
+                                str: "a: T",
+                                start: 301,
+                                end: 305,
+                            },
+                            inner: [
+                                Pair {
+                                    rule: ident,
+                                    span: Span {
+                                        str: "a",
+                                        start: 301,
+                                        end: 302,
+                                    },
+                                    inner: [],
+                                },
+                                Pair {
+                                    rule: type,
+                                    span: Span {
+                                        str: "T",
+                                        start: 304,
+                                        end: 305,
+                                    },
+                                    inner: [
+                                        Pair {
+                                            rule: ident,
+                                            span: Span {
+                                                str: "T",
+                                                start: 304,
+                                                end: 305,
+                                            },
+                                            inner: [],
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                        Pair {
+                            rule: function_parameter,
+                            span: Span {
+                                str: "b: Vec<T>",
+                                start: 307,
+                                end: 316,
+                            },
+                            inner: [
+                                Pair {
+                                    rule: ident,
+                                    span: Span {
+                                        str: "b",
+                                        start: 307,
+                                        end: 308,
+                                    },
+                                    inner: [],
+                                },
+                                Pair {
+                                    rule: type,
+                                    span: Span {
+                                        str: "Vec<T>",
+                                        start: 310,
+                                        end: 316,
+                                    },
+                                    inner: [
+                                        Pair {
+                                            rule: ident,
+                                            span: Span {
+                                                str: "Vec",
+                                                start: 310,
+                                                end: 313,
+                                            },
+                                            inner: [],
+                                        },
+                                        Pair {
+                                            rule: type_generics_definition,
+                                            span: Span {
+                                                str: "<T>",
+                                                start: 313,
+                                                end: 316,
+                                            },
+                                            inner: [
+                                                Pair {
+                                                    rule: ident,
+                                                    span: Span {
+                                                        str: "T",
+                                                        start: 314,
+                                                        end: 315,
+                                                    },
+                                                    inner: [],
+                                                },
+                                            ],
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                    ],
+                },
+                Pair {
+                    rule: type,
+                    span: Span {
+                        str: "U ",
+                        start: 319,
+                        end: 321,
+                    },
+                    inner: [
+                        Pair {
+                            rule: ident,
+                            span: Span {
+                                str: "U",
+                                start: 319,
+                                end: 320,
+                            },
+                            inner: [],
+                        },
+                    ],
+                },
+                Pair {
+                    rule: block_expr,
+                    span: Span {
+                        str: "{\n\ta.into()\n}",
+                        start: 321,
+                        end: 334,
+                    },
+                    inner: [
+                        Pair {
+                            rule: expr,
+                            span: Span {
+                                str: "a.into()\n",
+                                start: 324,
+                                end: 333,
+                            },
+                            inner: [
+                                Pair {
+                                    rule: term,
+                                    span: Span {
+                                        str: "a",
+                                        start: 324,
+                                        end: 325,
+                                    },
+                                    inner: [
+                                        Pair {
+                                            rule: ident,
+                                            span: Span {
+                                                str: "a",
+                                                start: 324,
+                                                end: 325,
+                                            },
+                                            inner: [],
+                                        },
+                                    ],
+                                },
+                                Pair {
+                                    rule: member_access_operation,
+                                    span: Span {
+                                        str: ".into()",
+                                        start: 325,
+                                        end: 332,
+                                    },
+                                    inner: [
+                                        Pair {
+                                            rule: term,
+                                            span: Span {
+                                                str: "into",
+                                                start: 326,
+                                                end: 330,
+                                            },
+                                            inner: [
+                                                Pair {
+                                                    rule: ident,
+                                                    span: Span {
+                                                        str: "into",
+                                                        start: 326,
+                                                        end: 330,
+                                                    },
+                                                    inner: [],
+                                                },
+                                            ],
+                                        },
+                                        Pair {
+                                            rule: call_operation,
+                                            span: Span {
+                                                str: "()",
+                                                start: 330,
+                                                end: 332,
+                                            },
+                                            inner: [],
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                    ],
+                },
+            ],
+        },
+        Pair {
             rule: EOI,
             span: Span {
                 str: "",
-                start: 282,
-                end: 282,
+                start: 335,
+                end: 335,
             },
             inner: [],
         },
